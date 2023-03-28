@@ -1,7 +1,7 @@
 # Problema do dia 28/03/2023
 def check_sum(list, k):
     for i in range(len(list)):
-        for j in range(i, len(list)):
+        for j in range(i+1, len(list)):
             if (list[i] + list[j]) == k:
                 return True
     return False
