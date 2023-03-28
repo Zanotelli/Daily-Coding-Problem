@@ -1,2 +1,2 @@
 # Daily-Coding-Problem
-Daily coding exercises
+Daily coding exercises provided by the **Daily Coding Problem** platform.
