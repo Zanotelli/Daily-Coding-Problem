@@ -59,5 +59,4 @@ class Node:
 
 
 node = Node('root', Node('left', Node('left.left')), Node('right'))
-node1 = deserialize(serialize(node))
 assert deserialize(serialize(node)).left.left.val == 'left.left'
