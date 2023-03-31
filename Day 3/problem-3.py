@@ -8,37 +8,48 @@ def serialize(root):
     return f"{root.val}:[{left},{right}]"
 
 
-# def deserialize(root):
-#     if root != "":
-#         val = root[:(root.find(":"))]
-#         sub_root = root[root.find("[")+1: root.rfind("]")]
-#         print(sub_root)
-#
-#         left = None
-#         right = None
-#         if sub_root.index(0) != ",":
-#             left = deserialize(sub_root)
-#         else:
-#             right = deserialize(sub_root[1:])
-#
-#
-#         left = root[root.find("l.")+1: root.find(",r.")]
-#         right = root[root.find("r.")+1:]
-#         print(left)
-#         print(right)
-#
-#         return Node(val, left, right)
+def get_matching_parenthesis(string):
+    stack = []
+    if "[" in string:
+        for i in range(len(string)):
+            if string[i] == "[":
+                stack.append(i)
+            elif string[i] == "]":
+                aux = stack.pop()
+                if stack.__len__() == 0:
+                    return [aux+1, i]
+
+
 def deserialize(root):
     if root != "":
-        val = root[:(root.find(":"))]
-        sub_root = root[root.find("[")+1: root.rfind("]")]
-        print(sub_root)
+        val = None
+        if ":" in root:
+            val = root[:(root.find(":"))]
+
+        par = get_matching_parenthesis(root)
+        sub_root = root[par[0]: par[1]]
+
+        sub_root_l = ""
+        sub_root_r = ""
+
+        div = None
+        if sub_root != ",":
+            div = get_matching_parenthesis(sub_root)[1]
+
+        if div is not None:
+            sub_root_l = sub_root[:(div+1)]
+            sub_root_r = sub_root[(div+2):]
 
         left = None
         right = None
 
+        if sub_root_l != "" and sub_root_l[0] != ",":
+            left = deserialize(sub_root_l)
+        if sub_root_r != "":
+            right = deserialize(sub_root_r)
 
         return Node(val, left, right)
+
 
 class Node:
     def __init__(self, val, left=None, right=None):
@@ -48,4 +59,5 @@ class Node:
 
 
 node = Node('root', Node('left', Node('left.left')), Node('right'))
+node1 = deserialize(serialize(node))
 assert deserialize(serialize(node)).left.left.val == 'left.left'
